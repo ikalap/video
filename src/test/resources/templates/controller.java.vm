@@ -1,0 +1,55 @@
+package com.kalpa.video.controller;
+
+import com.kalpa.video.model.${entity}DTO;
+import com.kalpa.video.service.${entity}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import java.util.List;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+/**
+ * ${table.comment} 前端控制器
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping("/api/${entity.toLowerCase()}")
+@Tag(name = "${table.comment}")
+public class ${entity}Controller {
+    @Autowired
+    private ${entity}Service ${entity.toLowerCase()}Service;
+
+    @GetMapping
+    public ResponseEntity<List<${entity}DTO>> getAll${entity}() {
+        List<${entity}DTO> ${entity.toLowerCase()}List = ${entity.toLowerCase()}Service.getAll();
+        return ResponseEntity.ok(${entity.toLowerCase()}List);
+    }
+
+    @Operation(summary = "根据ID获取${entity}详情")
+    @GetMapping("/{id}")
+    public ResponseEntity<${entity}DTO> get${entity}ById(@PathVariable Long id) {
+        return ResponseEntity.ok(${entity.toLowerCase()}Service.getById(id));
+    }
+
+    @PostMapping
+    @Operation(summary = "创建新${entity}")
+    public ResponseEntity<Boolean> create${entity}(@RequestBody ${entity}DTO ${entity.toLowerCase()}DTO) {
+        return ResponseEntity.ok(${entity.toLowerCase()}Service.create(${entity.toLowerCase()}DTO));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "更新${entity}信息")
+    public ResponseEntity<Boolean> update${entity}(@PathVariable Long id, @RequestBody ${entity}DTO ${entity.toLowerCase()}DTO) {
+        return ResponseEntity.ok(${entity.toLowerCase()}Service.updateById(id, ${entity.toLowerCase()}DTO));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "删除${entity}")
+    public ResponseEntity<Boolean> delete${entity}(@PathVariable Long id) {
+        return ResponseEntity.ok(${entity.toLowerCase()}Service.deleteById(id));
+    }
+
+}

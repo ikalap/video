@@ -1,0 +1,38 @@
+# Created by .ignore support plugin (hsz.mobi)
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+*/target/
+.DS_Store
+/workspace/
+/archetype/
+/xxl-job-logs/
+/.flattened-pom.xml
+*/.flattened-pom.xml
+.mvn/
+
+### 测试使用 ###
+application-test.yml

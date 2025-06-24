@@ -1,0 +1,97 @@
+package com.kalpa.video.service.impl;
+
+import com.kalpa.video.model.${entity}DTO;
+import com.kalpa.video.repository.${entity}Repository;
+import com.kalpa.video.service.${entity}Service;
+import com.kalpa.video.repository.po.${entity};
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * <p>
+ * ${tableComment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+public class ${entity}ServiceImpl implements ${entity}Service {
+
+    @Autowired
+    private ${entity}Repository ${entity.toLowerCase()}Repository;
+
+    /**
+     * 获取所有${entity}列表
+     */
+    @Override
+    public List<${entity}DTO> getAll() {
+        return ${entity.toLowerCase()}Repository.list().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 根据ID获取${entity}详情
+     */
+    @Override
+    public ${entity}DTO getById(Long id) {
+        return ${entity.toLowerCase()}Repository.getOptById(id)
+                .map(this::convertToDTO)
+                .orElse(null);
+    }
+
+    /**
+     * 创建新${entity}
+     */
+    @Override
+    public Boolean create(${entity}DTO ${entity.toLowerCase()}DTO) {
+        ${entity} ${entity.toLowerCase()} = convertToEntity(${entity.toLowerCase()}DTO);
+        return ${entity.toLowerCase()}Repository.save(${entity.toLowerCase()});
+    }
+
+    /**
+     * 更新${entity}信息
+     */
+    @Override
+    public Boolean updateById(Long id, ${entity}DTO ${entity.toLowerCase()}DTO) {
+        ${entity} existing${entity} = ${entity.toLowerCase()}Repository.getOptById(id).orElse(null);
+        if (existing${entity} == null) {
+            return false;
+        }
+
+        // 更新实体属性
+        BeanUtils.copyProperties(${entity.toLowerCase()}DTO, existing${entity});
+        return ${entity.toLowerCase()}Repository.updateById(existing${entity});
+    }
+
+    /**
+     * 删除${entity}
+     */
+    @Override
+    public Boolean deleteById(Long id) {
+        return ${entity.toLowerCase()}Repository.removeById(id);
+    }
+
+    /**
+     * 将PO对象转换为DTO对象
+     */
+    private ${entity}DTO convertToDTO(${entity} ${entity.toLowerCase()}) {
+        ${entity}DTO dto = new ${entity}DTO();
+        BeanUtils.copyProperties(dto, ${entity.toLowerCase()});
+        return dto;
+    }
+
+    /**
+     * 将DTO对象转换为PO实体
+     */
+    private ${entity} convertToEntity(${entity}DTO ${entity.toLowerCase()}DTO) {
+        ${entity} ${entity.toLowerCase()} = new ${entity}();
+        BeanUtils.copyProperties(${entity.toLowerCase()}, ${entity.toLowerCase()}DTO);
+        return ${entity.toLowerCase()};
+    }
+}

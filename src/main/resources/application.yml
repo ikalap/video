@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: kalpa-video
+  datasource:
+    # 数据库配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://{mysql_url}:3306/pet?characterEncoding=utf8&useSSL=false&autoReconnect=true
+    username: {mysql_username}
+    password: {mysql_password}
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /swagger-resources/configuration/ui
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    metrics:
+      tags:
+        application: kalpa-video

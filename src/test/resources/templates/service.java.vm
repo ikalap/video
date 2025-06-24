@@ -1,0 +1,41 @@
+package com.kalpa.video.service;
+
+import com.kalpa.video.model.${entity}DTO;
+
+import java.util.List;
+
+/**
+ * <p>
+ * ${tableComment} 服务接口
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${entity}Service {
+    
+    /**
+     * 获取所有${entity}列表
+     */
+    List<${entity}DTO> getAll();
+    
+    /**
+     * 根据ID获取${entity}详情
+     */
+    ${entity}DTO getById(Long id);
+    
+    /**
+     * 创建新${entity}
+     */
+    Boolean create(${entity}DTO dto);
+
+    /**
+     * 更新${entity}信息
+     */
+    Boolean updateById(Long id, ${entity}DTO dto);
+    
+    /**
+     * 删除${entity}
+     */
+    Boolean deleteById(Long id);
+}
