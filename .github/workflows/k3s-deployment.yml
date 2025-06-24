@@ -1,0 +1,53 @@
+name: k3s-deployment
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      # 1. java编译 和打包
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      # 2. 修改deployment.yml文件
+      - name: 修改deployment.yaml文件
+        run: |
+          sed -i 's/{image_name}/kalpa-test/g' deployment.yaml
+          sed -i 's/{image_tag}/${{ github.sha }}/g' deployment.yaml
+      
+
+      # 3. 上传文件到服务器
+      - name: 上传文件到服务器
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}     # 引用 GitHub Secrets 中的服务器 IP
+          username: ${{ secrets.SERVER_USER }} # 引用 GitHub Secrets 中的用户名
+          password: ${{ secrets.SERVER_PASS }} # 引用 GitHub Secrets 中的密码
+          source: "./deployment.yaml,./Dockerfile,./target/*.jar"
+          target: /home/ubuntu/apps/kalpa-test/    # 上传到服务器的目标目录
+          overwrite: true  #文件覆盖模式
+
+      # 4. 通过ssh执行shell命令，在服务器上构建镜像并部署
+      - name: 在服务器上构建镜像并部署
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}     # 引用 GitHub Secrets 中的服务器 IP
+          username: ${{ secrets.SERVER_USER }} # 引用 GitHub Secrets 中的用户名
+          password: ${{ secrets.SERVER_PASS }} # 引用 GitHub Secrets 中的密码
+          script: |
+            cd /home/ubuntu/apps/kalpa-test/
+            docker login ccr.ccs.tencentyun.com --username=${{ secrets.REGISTRY_USERNAME }} --password=${{ github.REGISTRY_PASSWORD }}
+            docker build -t ccr.ccs.tencentyun.com/kalpa/kalpa-test:${{ github.sha }} .
+            docker push ccr.ccs.tencentyun.com/kalpa/kalpa-test:${{ github.sha }}
+            kubectl apply -f deployment.yaml
+            kubectl rollout status -n default deployment/kalpa-test

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {image_name}
+  labels:
+    app: {image_name}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {image_name}
+  template:
+    metadata:
+      labels:
+        app: {image_name}
+    spec:
+      containers:
+        - name: {image_name}
+          #         这里的镜像会被jenkins 使用sed -i 命令自动替换
+          image: ccr.ccs.tencentyun.com/kalpa/{image_name}:{image_tag}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_OPTS
+              value: "-Xmx512m -Xms512m"
+            # 数据库有关的配置
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_URL
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASSWORD
+          readinessProbe:
+            httpGet:
+              path: /{image_name}/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {image_name}
+spec:
+  selector:
+    app: {image_name}
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8080
+  type: ClusterIP
