@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MicrometerConfig {
+
 //    @Bean
 //    public CountedAspect countedAspect(MeterRegistry registry) {
 //        return new CountedAspect(registry);
 //    }
+
 }
