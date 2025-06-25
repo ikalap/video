@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  REPO_NAME: ${{ split(github.repository, '/')[1] }}
+  REPO_NAME: ${{ github.repository }}
 
 jobs:
   build:
