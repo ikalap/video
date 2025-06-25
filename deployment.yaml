@@ -43,9 +43,9 @@ spec:
                   key: DB_PASSWORD
           readinessProbe:
             httpGet:
-              path: /{image_name}/health
+              path: /actuator/health
               port: 8080
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
             periodSeconds: 5
 ---
 apiVersion: v1
