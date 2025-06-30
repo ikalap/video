@@ -45,6 +45,8 @@ jobs:
           source: "./deployment.yaml,./Dockerfile,./target/*.jar"
           target: /github-action/${{ env.REPO_NAME }}/    # 上传到服务器的目标目录
           overwrite: true  #文件覆盖模式
+          command_timeout: 10m
+          timeout: 30s
 
       # 4. 通过ssh执行shell命令，在服务器上构建镜像并部署
       - name: 在服务器上构建镜像并部署
