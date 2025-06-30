@@ -1,5 +1,9 @@
-# 0. 配置
-## application.yml
+# 说明
+
+## 0. 配置
+
+### application.yml
+
 ```yaml
 spring:
   application:
@@ -7,6 +11,7 @@ spring:
 ```
 
 可用的占位符
+
 ```yaml
 _rootArtifactId_ ：做文件夹名替换用，例如_rootArtifactId_-dao, 占位符来动态获取父工程的ArtifactId
  ${rootArtifactId} ： 它保存用户输入的值作为项目名（maven在用户运行原型时在提示符中询问为artifactid:的值）
@@ -17,22 +22,24 @@ _rootArtifactId_ ：做文件夹名替换用，例如_rootArtifactId_-dao, 占�
  ${version}  ：版本号
 ```
 
-# 1. 构建脚手架
+## 1. 构建脚手架
 
 ```
 mvn clean archetype:create-from-project 
 ```
 
-# 2. 将脚手架复制到本地仓库
+## 2. 将脚手架复制到本地仓库
 
 cd E:\temp\my-demo\target\generated-sources\archetype
 
 pom坐标修改后直接安装到本地仓库
+
 ```yaml
   mvn clean install -DskipTests
 ```
 
 未修改pom文件，或想自定maven坐标，可以加入以下参数
+
 ```yaml
 mvn clean install -DskipTests ^
 -DgroupId=com.kalpa  ^
@@ -41,7 +48,8 @@ mvn clean install -DskipTests ^
 -Dpackaging=jar
 ```
 
-# 使用
+## 使用
+>
 > -B 非交互模式运行
 > -e 错误详细输出
 > -X 调试输出，打印详细的过程日志
@@ -49,6 +57,7 @@ mvn clean install -DskipTests ^
 > -DinteractiveMode=false 关闭交互模式
 
 需要将{mydemo}替换为你的项目名
+
 ```
 mvn archetype:generate ^
 -B -e -X ^
@@ -63,7 +72,7 @@ mvn archetype:generate ^
 -DinteractiveMode=false
 ```
 
-## windows使用例子
+### windows使用例子
 
 ```
 mvn archetype:generate ^
