@@ -23,6 +23,9 @@ public class AspectAop {
      */
     private Counter counter_total;
 
+    /**
+     * 开始时间
+     */
     ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut("execution(public * com.kalpa.video.controller.*.*(..))")
