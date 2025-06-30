@@ -55,7 +55,7 @@ jobs:
           password: ${{ secrets.SERVER_PASS }} # 引用 GitHub Secrets 中的密码
           script: |
             cd /github-action/${{ env.REPO_NAME }}/
-            docker login ccr.ccs.tencentyun.com --username=${{ secrets.REGISTRY_USERNAME }} --password=${{ github.REGISTRY_PASSWORD }}
+            docker login ccr.ccs.tencentyun.com --username=${{ secrets.REGISTRY_USERNAME }} --password=${{ secrets.REGISTRY_PASSWORD }}
             docker build -t ccr.ccs.tencentyun.com/kalpa/${{ env.REPO_NAME }}:${{ env.BUILD_TIME }} .
             docker push ccr.ccs.tencentyun.com/kalpa/${{ env.REPO_NAME }}:${{ env.BUILD_TIME }}
             kubectl apply -f deployment.yaml

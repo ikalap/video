@@ -22,8 +22,7 @@ public class IndexController {
     private Counter counter_index;
     private AtomicInteger app_online_count;
 
-    @PostConstruct
-    private void init(){
+    @PostConstruct private void init(){
         counter_core = registry.counter("app_requests_method_count", "method", "IndexController.core");
         counter_index = registry.counter("app_requests_method_count", "method", "IndexController.index");
         app_online_count = registry.gauge("app_online_count", new AtomicInteger(0));
@@ -32,6 +31,7 @@ public class IndexController {
     @RequestMapping(value = "/index")
     public Object index(){
         try{
+
             counter_index.increment();
         } catch (Exception e) {
             return e;
