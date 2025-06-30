@@ -18,6 +18,9 @@ public class AspectAop {
     @Autowired
     MeterRegistry registry;
 
+    /**
+     * 统计请求次数
+     */
     private Counter counter_total;
 
     ThreadLocal<Long> startTime = new ThreadLocal<>();
