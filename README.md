@@ -40,6 +40,7 @@ pom坐标修改后直接安装到本地仓库
 
 未修改pom文件，或想自定maven坐标，可以加入以下参数
 
+
 ```yaml
 mvn clean install -DskipTests ^
 -DgroupId=com.kalpa  ^
